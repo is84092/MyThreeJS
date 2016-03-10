@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <title>Movie Panorama Example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -43,6 +43,7 @@
 
 <script src="three.min.js"></script>
 <script src="OrbitControls.js"></script>
+<script src="DeviceOrientationControls.js"></script>
 
 <script>
     (function(){
@@ -54,7 +55,7 @@
         //mesh
         var geometry = new THREE.SphereGeometry( 5, 60, 40 );
         geometry.scale( - 1, 1, 1 );
-        //動画
+
         var video = document.createElement( 'video' );
         video.width = 1024;
         video.height = 512;
@@ -65,10 +66,7 @@
         var texture = new THREE.VideoTexture( video );
         texture.minFilter = THREE.LinearFilter;
         var material   = new THREE.MeshBasicMaterial( { map : texture } );
-        //静止画
-        /*var material = new THREE.MeshBasicMaterial( {
-         map: THREE.ImageUtils.loadTexture( 'test.jpg' )
-         } );*/
+
         sphere = new THREE.Mesh( geometry, material );
         scene.add( sphere );
         //camera
@@ -87,14 +85,16 @@
         document.getElementById('stage').appendChild(renderer.domElement);
         renderer.render(scene,camera);
         //control
-        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        //var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        var deviceOrientationControls = new THREE.DeviceOrientationControls( camera );
         function render(){
             requestAnimationFrame(render);
             window.addEventListener( 'resize', onWindowResize, false );
             renderer.render(scene,camera);
             button = document.getElementById("play");
             button.addEventListener( 'click', vidplay, false );
-            controls.update();
+            //controls.update();
+            deviceOrientationControls.update();
         }
         render();
         function onWindowResize() {
