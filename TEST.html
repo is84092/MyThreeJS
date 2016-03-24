@@ -82,7 +82,7 @@
         //render
         var renderer = new THREE.WebGLRenderer();
         renderer.setPixelRatio( window.devicePixelRatio );
-        renderer.setSize(width/2,height/2);
+        renderer.setSize(width,height);
         renderer.setClearColor({color: 0x000000});
         document.getElementById('stage').appendChild(renderer.domElement);
         renderer.render(scene,camera);
