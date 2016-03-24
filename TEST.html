@@ -93,8 +93,8 @@
             renderer.render(scene,camera);
             button = document.getElementById("play");
             button.addEventListener( 'click', vidplay, false ); 
-            controls.update();
-            //deviceOrientationControls.update();
+            //controls.update();
+            deviceOrientationControls.update();
         }
         render();
         function onWindowResize() {
