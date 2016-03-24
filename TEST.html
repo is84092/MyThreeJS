@@ -69,7 +69,6 @@
         var material   = new THREE.MeshBasicMaterial( { map : texture } );
 
         sphere = new THREE.Mesh( geometry, material );
-        sphere.rotateX( Math.PI / 2);
         scene.add( sphere );
         //camera
         var camera = new THREE.PerspectiveCamera(75, width / height, 0.001, 1000);
