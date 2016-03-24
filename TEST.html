@@ -53,8 +53,9 @@
         //scene
         var scene = new THREE.Scene();
         //mesh
-        var geometry = new THREE.SphereGeometry( 500, 60, 40 );
+        var geometry = new THREE.SphereGeometry( 5, 60, 40 );
         geometry.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
+
 
         var video = document.createElement( 'video' );
         //video.width = 1024;
@@ -68,6 +69,8 @@
         var material   = new THREE.MeshBasicMaterial( { map : texture } );
 
         sphere = new THREE.Mesh( geometry, material );
+        sphere.rotateX( Math.PI / -2);
+        sphere.rotateY( Math.PI / -1);
         scene.add( sphere );
         //camera
         var camera = new THREE.PerspectiveCamera(95, width / height, 0.001, 1000);
@@ -89,6 +92,7 @@
         var deviceOrientationControls = new THREE.DeviceOrientationControls( camera );
         deviceOrientationControls.connect();
         function render(){
+
             requestAnimationFrame(render);
             window.addEventListener( 'resize', onWindowResize, false );
             renderer.render(scene,camera);
