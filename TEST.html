@@ -87,6 +87,7 @@
         //control
         //var controls = new THREE.OrbitControls(camera, renderer.domElement);
         var deviceOrientationControls = new THREE.DeviceOrientationControls( camera );
+        deviceOrientationControls.connect();
         function render(){
             requestAnimationFrame(render);
             window.addEventListener( 'resize', onWindowResize, false );
