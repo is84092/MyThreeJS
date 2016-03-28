@@ -41,12 +41,20 @@
     <div id="play">||</div>
 </div>
 
-<script src="three.min.js"></script>
-<script src="OrbitControls.js"></script>
-<script src="DeviceOrientationControls.js"></script>
+<script src="../libs/three.min.js"></script>
+<script src="../libs/OrbitControls.js"></script>
+<script src="../libs/DeviceOrientationControls.js"></script>
+
 
 <script>
     (function(){
+        var ua = navigator.userAgent;
+        if (ua.indexOf('iPhone') > 0 || ua.indexOf('iPod') > 0 || ua.indexOf('Android') > 0) {
+            var sp = true;
+        }else if(ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0){
+            var sp = true;
+        }
+
         var width = window.innerWidth,
                 height = window.innerHeight;
         var button;
@@ -87,8 +95,13 @@
         renderer.render(scene,camera);
         //control
         //var controls = new THREE.OrbitControls(camera, renderer.domElement);
-        var deviceOrientationControls = new THREE.DeviceOrientationControls( camera );
-        deviceOrientationControls.connect();
+       //var deviceOrientationControls = new THREE.DeviceOrientationControls( camera );
+        //deviceOrientationControls.connect();
+        if(sp){
+            var gcontrols = new THREE.DeviceOrientationControls(camera, renderer.domElement);
+        }else{
+            var controls = new THREE.OrbitControls(camera, renderer.domElement);
+        }
         function render(){
 
             requestAnimationFrame(render);
@@ -97,7 +110,14 @@
             button = document.getElementById("play");
             button.addEventListener( 'click', vidplay, false ); 
             //controls.update();
-            deviceOrientationControls.update();
+           // deviceOrientationControls.update();
+            if(sp){
+                gcontrols.connect();
+                gcontrols.update();
+            } else{
+                //sphere.rotation.y += 0.05 * Math.PI/180;
+                controls.update();
+            }
         }
         render();
         function onWindowResize() {
