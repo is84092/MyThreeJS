@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="http://vjs.zencdn.net/5.8.6/video-js.css" rel="stylesheet">
-
-    <!-- If you'd like to support IE8 -->
-    <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+    <link href="video-js.css" rel="stylesheet">
 </head>
 
 <body>
 <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls loop preload="auto" width="640" height="264" data-setup="{}">
     <source
-            src="//s3.amazonaws.com/_bc_dml/example-content/tears-of-steel/playlist.m3u8"
+            src="http://s3.amazonaws.com/_bc_dml/example-content/tears-of-steel/playlist.m3u8"
             type="application/x-mpegURL">
     <p class="vjs-no-js">
         To view this video please enable JavaScript, and consider upgrading to a web browser that
@@ -19,8 +16,8 @@
 </video>
 
 
-<script src="http://vjs.zencdn.net/5.8.6/video.js"></script>
-<script src="videojs-contrib-hls.js"></script>
+<script src="video.js"></script>
+<script src="videojs-contrib-hls.min.js"></script>
 
 <script>
     var player = videojs('my-video');
