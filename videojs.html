@@ -18,9 +18,16 @@
 
 <script src="video.js"></script>
 <script src="videojs-contrib-hls.min.js"></script>
+<script type="text/javascript" src="https://metastage.sa.metacdn.com/video-js/js/1545bf5f0a20f4b9eb8f56ecde196e14e6f2b997-three.js"></script>
+<script type="text/javascript" src="https://metastage.sa.metacdn.com/video-js/js/1545bf5f0a20f4b9eb8f56ecde196e14e6f2b997-VRControls.js"></script>
+<script type="text/javascript" src="https://metastage.sa.metacdn.com/video-js/js/1545bf5f0a20f4b9eb8f56ecde196e14e6f2b997-VREffect.js"></script>
+<script type="text/javascript" src="https://metastage.sa.metacdn.com/video-js/js/1545bf5f0a20f4b9eb8f56ecde196e14e6f2b997-webvr-polyfill.js"></script>
+<script type="text/javascript" src="https://metastage.sa.metacdn.com/video-js/js/1545bf5f0a20f4b9eb8f56ecde196e14e6f2b997-webvr-manager.js"></script>
+<script type="text/javascript" src="https://metastage.sa.metacdn.com/video-js/js/1545bf5f0a20f4b9eb8f56ecde196e14e6f2b997-videojs.vr.js"></script>
 
 <script>
     var player = videojs('my-video');
+    player.vr({projection: "Sphere"});
     player.play();
 </script>
 </body>
