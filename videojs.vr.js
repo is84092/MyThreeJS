@@ -80,6 +80,8 @@
                 camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
                 scene = new THREE.Scene();
 
+                controls = new THREE.VRControls(camera);
+
                 videoTexture = new THREE.VideoTexture(videoEl);
                 videoTexture.generateMipmaps = false;
                 videoTexture.minFilter = THREE.LinearFilter;
@@ -111,11 +113,7 @@
                 container.insertBefore(renderedCanvas, container.firstChild);
                 videoEl.style.display = "none";
 
-                controls = new THREE.OrbitControls( camera, renderedCanvas);
-                //controls.addEventListener( 'change', render ); // add this only if there is no animation loop (requestAnimationFrame)
-                controls.enableDamping = true;
-                controls.dampingFactor = 0.25;
-                controls.enableZoom = false;
+
 
                 // Handle window resizes
                 function onWindowResize() {
@@ -132,9 +130,8 @@
                             videoTexture.needsUpdate = true;
                         }
                     }
-
-                    requestId = window.requestAnimationFrame(animate);
                     controls.update();
+                    requestId = window.requestAnimationFrame(animate);
                     renderer.render(scene, camera);
 
                 }());
