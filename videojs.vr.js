@@ -70,7 +70,6 @@
 
             function initScene() {
                 var time = Date.now(),
-                    effect,
                     videoTexture,
                     requestId,
                     renderer,
@@ -119,7 +118,6 @@
                 function onWindowResize() {
                     camera.aspect = window.innerWidth / window.innerHeight;
                     camera.updateProjectionMatrix();
-                    effect.setSize(window.innerWidth, window.innerHeight);
                 }
 
                 window.addEventListener('resize', onWindowResize, false);
