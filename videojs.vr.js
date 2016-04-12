@@ -99,7 +99,6 @@
                     devicePixelRatio: window.devicePixelRatio,
                     alpha: false,
                     clearColor: 0xffffff,
-                    antialias: true
                 });
 
                 renderer.setSize(window.innerWidth, window.innerHeight);
