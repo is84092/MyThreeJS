@@ -107,6 +107,7 @@
                 renderedCanvas = renderer.domElement;
                 renderedCanvas.style.width = "inherit";
                 renderedCanvas.style.height = "inherit";
+                renderedCanvas.addEventListener( 'click', vidplay, false ); 
 
                 container.insertBefore(renderedCanvas, container.firstChild);
                 videoEl.style.display = "none";
@@ -120,6 +121,14 @@
                 }
 
                 window.addEventListener('resize', onWindowResize, false);
+                
+                function vidplay() {
+                     if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                };
 
                 (function animate() {
                     if (videoEl.readyState === videoEl.HAVE_ENOUGH_DATA) {
