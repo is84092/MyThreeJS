@@ -79,8 +79,11 @@
   -- Now, initialize your player. That's it!
   -->
 <script>
-    var player = videojs('example-video');
-    player.vr({projection: "Sphere"});
+    videojs('example-video').ready(function () {
+        var player = this;
+        player.vr({projection: "Sphere"});
+    });
+    
 </script>
 </body>
 </html>
