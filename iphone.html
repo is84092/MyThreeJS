@@ -81,10 +81,11 @@
     var player;
     videojs('example-video').ready(function () {
         player = this;
-        this.play();
         //player.vr({projection: "Sphere"});
     });
-    
+    function playVideo(){
+        player.play();
+    };
 </script>
 <a href="javascript:playVideo();">Play</a>
 </body>
