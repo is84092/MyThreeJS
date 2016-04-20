@@ -81,6 +81,7 @@
     var player;
     videojs('example-video').ready(function () {
         player = this;
+        player.play();
         player.vr({projection: "Sphere"});
     });
     
