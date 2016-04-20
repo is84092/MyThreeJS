@@ -116,7 +116,7 @@
                 var t = document.createTextNode("CLICK ME");       // Create a text node
                 btn.appendChild(t);                                // Append the text to <button>
                 document.body.appendChild(btn);                    // Append <button> to <body>
-                btn.addEventListener("click", function() {player.play();fullscreen();});
+                btn.addEventListener("click", function() {player.play();});
 
 
                 // Handle window resizes
