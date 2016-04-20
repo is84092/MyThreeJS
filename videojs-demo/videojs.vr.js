@@ -129,9 +129,7 @@
 
                 (function animate() {
                     if (videoEl.readyState === videoEl.HAVE_ENOUGH_DATA) {
-                        if (videoTexture) {
-                            videoTexture.needsUpdate = true;
-                        }
+                        videoTexture.needsUpdate = true;
                     }
                     controls.update();
                     requestId = window.requestAnimationFrame(animate);
