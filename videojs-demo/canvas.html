@@ -58,6 +58,7 @@
         var togglePlay;
         var ua = navigator.userAgent;
         var camera, scene, renderer, geometry, texture, mesh;
+        var width = window.innerWidth, height = window.innerHeight / 2;
 
         if (/(iPhone|iPod)/.test(ua)) {
             ctx.scale(0.5, 0.5);
