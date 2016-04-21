@@ -89,7 +89,7 @@
             camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1100 );
 	    camera.target = new THREE.Vector3( 0, 0, 0 );
             scene.add(camera);
-            texture = new THREE.VideoTexture(canvas);
+            texture = new THREE.Texture(canvas);
             var material = new THREE.MeshBasicMaterial( { map : texture } );
             geometry = new THREE.SphereBufferGeometry( 500, 60, 40 );
 	    geometry.scale( - 1, 1, 1 );
