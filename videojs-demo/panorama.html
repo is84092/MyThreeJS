@@ -1,1 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Inline Movie on iPhone Safari with Sound</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 
+    <link href="http://jsrun.it/lib/html5reset-1.6.1/css" type="text/css" rel="stylesheet"/>
+    <script src="three.min.js"></script>
+
+    <style type="text/css">
+        body {
+            background: #FFFFFF;
+        }
+        .title {
+            margin: 10px auto;
+            text-align: center;
+        }
+        .movie {
+            text-align: center;
+            margin: 10px auto;
+        }
+        .movie video {
+            margin: 0px auto;
+            width: 320px;
+            height: 180px;
+        }
+        .control {
+            text-align: center;
+        }
+        .control button {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+<div class="movie">
+    <canvas width="320" height="180" id="myCanvas"></canvas>
+</div>
+<div class="control">
+    <button>play/pause</button>
+</div>
+<script type="text/javascript">
+    (function () {
+        var btn = document.querySelector('button');
+        btn.disabled = true;
+        var audio = new Audio();
+        var video = document.createElement('video');
+        video.style.display = 'none';
+        document.body.appendChild(video);
+        var canvas = document.getElementById('myCanvas');
+        var ctx = canvas.getContext("2d");
+        var togglePlay;
+        var ua = navigator.userAgent;
+        var camera, scene, renderer, geometry, texture, mesh;
+        var width = window.innerWidth, height = window.innerHeight / 2;
+        if (/(iPhone|iPod)/.test(ua)) {
+            ctx.scale(0.5, 0.5);
+            var prms1 = new Promise(function (resolve, reject) {
+                video.addEventListener('canplay', function () {
+                    resolve();
+                });
+                video.addEventListener('error', function () {
+                    reject();
+                    alert('failed loading video');
+                });
+            });
+            var prms2 = new Promise(function (resolve, reject) {
+                audio.addEventListener('canplay', function () {
+                    resolve();
+                });
+                audio.addEventListener('error', function () {
+                    reject();
+                    alert('failed loading audio');
+                });
+            });
+            Promise.all([prms1, prms2]).then(function () {
+                btn.disabled = false;
+            });
+            video.src = 'video-1920x960.mp4';
+            video.load();
+            audio.src = 'video-1920x960.mp4';
+            audio.load();
+            renderer = new THREE.WebGLRenderer();
+				    renderer.setPixelRatio( window.devicePixelRatio );
+				    renderer.setSize( window.innerWidth/2, window.innerHeight/2);
+            document.body.appendChild(renderer.domElement);
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1100 );
+				    camera.target = new THREE.Vector3( 0, 0, 0 );
+            scene.add(camera);
+            texture = new THREE.VideoTexture(canvas);
+            var material = new THREE.MeshBasicMaterial( { map : texture } );
+            geometry = new THREE.SphereBufferGeometry( 500, 60, 40 );
+				    geometry.scale( - 1, 1, 1 );
+            mesh = new THREE.Mesh( geometry, material );
+            scene.add( mesh );
+            togglePlay = function () {
+                if (audio.paused) {
+                    audio.play();
+                    (function loop() {
+                        video.currentTime = audio.currentTime;
+                        ctx.drawImage(video, 0, 0, 640, 360);
+                        texture.needsUpdate = true;
+                        renderer.render(scene, camera);
+                        if (!audio.paused) {
+                            requestAnimationFrame(loop);
+                        }
+                    })();
+                } else {
+                    audio.pause();
+                }
+            };
+        } else {
+            canvas.parentNode.insertBefore(video, canvas);
+            video.style.display = 'block';
+            video.addEventListener('canplay', function () {
+                btn.disabled = false;
+            });
+            video.src = 'https://videos-origin.mozilla.org/uploads/mozillaorg/meetFFXmobile2-640x360.mp4';
+            video.load();
+            canvas.parentNode.removeChild(canvas);
+            togglePlay = function () {
+                if (video.paused) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            };
+        }
+        btn.addEventListener('click', togglePlay);
+    })();
+</script>
+</body>
+</html>
