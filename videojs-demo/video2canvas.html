@@ -73,8 +73,6 @@
             });
             Promise.all([prms1, prms2]).then(function () {
                 btn.disabled = false;
-                width = window.innerWidth;
-                height = window.innerWidth*video.videoHeight/video.videoWidth;
             });
             video.src = 'video-1920x960.mp4';
             video.load();
