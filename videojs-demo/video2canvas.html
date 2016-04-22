@@ -34,7 +34,7 @@
     </style>
 </head>
 <body>
-<div class="movie">
+<div id="cantainer" class="movie">
 </div>
 <div class="control">
     <button>play/pause</button>
@@ -47,7 +47,7 @@
         var video = document.createElement('video');
         video.style.display = 'none';
         document.body.appendChild(video);
-        var container = document.getElementById( 'movie' );
+        var container = document.getElementById( 'container' );
         var togglePlay;
         var ua = navigator.userAgent;
         var camera, scene, renderer, geometry, texture, mesh;
