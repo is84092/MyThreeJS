@@ -81,19 +81,19 @@
             audio.src = 'video-1920x960.mp4';
             audio.load();
             renderer = new THREE.WebGLRenderer();
-			renderer.setPixelRatio( window.devicePixelRatio );
-			renderer.setSize(width, height);
+	    renderer.setPixelRatio( window.devicePixelRatio );
+	    renderer.setSize(width, height);
             container.appendChild(renderer.domElement);
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera( 75, width / height, 1, 1100 );
-			camera.target = new THREE.Vector3( 0, 0, 0 );
+	    camera.target = new THREE.Vector3( 0, 0, 0 );
             scene.add(camera);
             texture = new THREE.VideoTexture( video );
-			texture.minFilter = THREE.LinearFilter;
-			texture.format = THREE.RGBFormat;
+	    texture.minFilter = THREE.LinearFilter;
+	    texture.format = THREE.RGBFormat;
             var material = new THREE.MeshBasicMaterial({ map: texture });
             geometry = new THREE.SphereBufferGeometry( 500, 60, 40 );
-			geometry.scale(-1, 1, 1);
+	    geometry.scale(-1, 1, 1);
             mesh = new THREE.Mesh( geometry, material );
             scene.add( mesh );
             togglePlay = function () {
