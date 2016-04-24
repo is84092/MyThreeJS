@@ -111,6 +111,7 @@
             };
             renderer.domElement.addEventListener("click",fullscreen);
             function fullscreen(){
+            	console.log("fullscreen");
            	var elem = renderer.domElement;
  		if (elem.requestFullscreen) {
   			elem.requestFullscreen();
