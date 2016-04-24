@@ -116,12 +116,16 @@
            	var elem = renderer.domElement;
  		if (elem.requestFullscreen) {
   			elem.requestFullscreen();
+  			console.log("elem.requestFullscreen()");
 		} else if (elem.msRequestFullscreen) {
   			elem.msRequestFullscreen();
+  			console.log("elem.msRequestFullscreen()");
 		} else if (elem.mozRequestFullScreen) {
   			elem.mozRequestFullScreen();
+  			console.log("elem.mozRequestFullScreen()");
 		} else if (elem.webkitRequestFullscreen) {
   			elem.webkitRequestFullscreen();
+  			console.log("elem.webkitRequestFullscreen()");
 		};        
 	    };
         } else {
