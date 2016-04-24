@@ -52,7 +52,6 @@
 </head>
 <body>
 <div id="container" class="movie">
-	<canvas width="320" height="180" id="myCanvas"></canvas>
 </div>
 <div class="control">
     <button>play/pause</button>
@@ -66,7 +65,6 @@
         video.style.display = 'none';
         document.body.appendChild(video);
         var container = document.getElementById( 'container' );
-        var canvas = document.getElementById("myCanvas");
         var togglePlay;
         var ua = navigator.userAgent;
         var camera, scene, renderer, geometry, texture, mesh;
@@ -98,14 +96,15 @@
             video.load();
             audio.src = 'video-1920x960.mp4';
             audio.load();
-            renderer = new THREE.WebGLRenderer({ canvas: canvas });
+            renderer = new THREE.WebGLRenderer();
 	    renderer.setPixelRatio( window.devicePixelRatio );
 	    renderer.setSize(width, height);
+	    container.appendChild( renderer.domElement );
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera( 75, width / height, 1, 1100 );
 	    camera.target = new THREE.Vector3( 0, 0, 0 );
             scene.add(camera);
-            controls = new THREE.OrbitControls( camera, canvas);
+            controls = new THREE.OrbitControls( camera, renderer.domElement);
             texture = new THREE.VideoTexture( video );
 	    texture.minFilter = THREE.LinearFilter;
 	    texture.format = THREE.RGBFormat;
