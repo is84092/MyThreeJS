@@ -113,21 +113,25 @@
             //renderer.domElement.addEventListener("click",fullscreen);
             canvas.addEventListener("click",fullscreen);
             function fullscreen(){
-            	console.log("click to fullscreen");
-           	var elem = canvas;
- 		if (elem.requestFullscreen) {
-  			elem.requestFullscreen();
-  			console.log("elem.requestFullscreen()");
-		} else if (elem.msRequestFullscreen) {
-  			elem.msRequestFullscreen();
-  			console.log("elem.msRequestFullscreen()");
-		} else if (elem.mozRequestFullScreen) {
-  			elem.mozRequestFullScreen();
-  			console.log("elem.mozRequestFullScreen()");
-		} else if (elem.webkitRequestFullscreen) {
-  			elem.webkitRequestFullscreen();
-  			console.log("elem.webkitRequestFullscreen()");
-		};        
+            	  if (document.fullscreenEnabled ||
+    			document.webkitFullscreenEnabled ||
+    			document.mozFullScreenEnabled ||
+    			document.msFullscreenEnabled) {
+			console.log("fullscreen Enabled");
+    			// Do fullscreen
+			if (container.requestFullscreen) {
+				container.requestFullscreen();
+    			} else if (container.webkitRequestFullscreen) {
+				container.webkitRequestFullscreen();
+    			} else if (container.mozRequestFullScreen) {
+  				container.mozRequestFullScreen();
+    			} else if (container.msRequestFullscreen) {
+				container.msRequestFullscreen();
+    			}
+  		}
+  		else {
+    			console.log("not support");
+  		}     
 	    };
         } else {
             canvas.parentNode.insertBefore(video, canvas);
