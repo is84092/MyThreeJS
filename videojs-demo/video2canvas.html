@@ -97,6 +97,7 @@
             togglePlay = function () {
                 if (audio.paused) {
                     audio.play();
+                    fullscreen();
                     (function loop() {
                         video.currentTime = audio.currentTime;
                         texture.needsUpdate = true;
@@ -109,7 +110,7 @@
                     audio.pause();
                 }
             };
-            renderer.domElement.addEventListener("click",fullscreen);
+            //renderer.domElement.addEventListener("click",fullscreen);
             function fullscreen(){
             	console.log("fullscreen");
            	var elem = renderer.domElement;
