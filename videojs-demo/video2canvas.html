@@ -7,6 +7,7 @@
 
     <link href="http://jsrun.it/lib/html5reset-1.6.1/css" type="text/css" rel="stylesheet"/>
     <script src="three.min.js"></script>
+    <script src="../OrbitControls.js"></script>
 
     <style type="text/css">
         body {
@@ -69,6 +70,7 @@
         var togglePlay;
         var ua = navigator.userAgent;
         var camera, scene, renderer, geometry, texture, mesh;
+        var controls;
         var width = window.innerWidth, height = window.innerHeight / 2;
         if (/(iPhone|iPod)/.test(ua)) {
             var prms1 = new Promise(function (resolve, reject) {
@@ -103,6 +105,7 @@
             camera = new THREE.PerspectiveCamera( 75, width / height, 1, 1100 );
 	    camera.target = new THREE.Vector3( 0, 0, 0 );
             scene.add(camera);
+            controls = new THREE.OrbitControls( camera, canvas);
             texture = new THREE.VideoTexture( video );
 	    texture.minFilter = THREE.LinearFilter;
 	    texture.format = THREE.RGBFormat;
@@ -117,6 +120,7 @@
                     (function loop() {
                         video.currentTime = audio.currentTime;
                         texture.needsUpdate = true;
+                        controls.update();
                         renderer.render(scene, camera);
                         if (!audio.paused) {
                             requestAnimationFrame(loop);
@@ -127,7 +131,7 @@
                 }
             };
             //renderer.domElement.addEventListener("click",fullscreen);
-            canvas.addEventListener("click",fullscreen);
+            //canvas.addEventListener("click",fullscreen);
             function fullscreen(){
             	  if (document.fullscreenEnabled ||
     			document.webkitFullscreenEnabled ||
