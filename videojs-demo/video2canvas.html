@@ -97,7 +97,6 @@
             togglePlay = function () {
                 if (audio.paused) {
                     audio.play();
-                    fullscreen();
                     (function loop() {
                         video.currentTime = audio.currentTime;
                         texture.needsUpdate = true;
@@ -106,6 +105,7 @@
                             requestAnimationFrame(loop);
                         }
                     })();
+                    fullscreen();
                 } else {
                     audio.pause();
                 }
