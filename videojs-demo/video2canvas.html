@@ -106,14 +106,14 @@
                             requestAnimationFrame(loop);
                         }
                     })();
-                    fullscreen();
                 } else {
                     audio.pause();
                 }
             };
             //renderer.domElement.addEventListener("click",fullscreen);
+            canvas.addEventListener("click",fullscreen);
             function fullscreen(){
-            	console.log("fullscreen");
+            	console.log("click to fullscreen");
            	var elem = canvas;
  		if (elem.requestFullscreen) {
   			elem.requestFullscreen();
