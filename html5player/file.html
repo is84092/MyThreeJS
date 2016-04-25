@@ -16,7 +16,12 @@
             font-size: 24px;
         }
     </style>
-    <script src="http://threejs.org/build/three.js"></script>
+    <script src="../videojs-demo/three.min.js"></script>
+    <script src="../videojs-demo/CanvasRenderer.js"></script>
+    <script src="../videojs-demo/Projector.js"></script>
+    <script src="../videojs-demo/VRControls.js"></script>
+    <script src="../videojs-demo/webvr-polyfill.js"></script>
+    <script src="../videojs-demo/webvr-manager.js"></script>
 </head>
 <body>
 <div id="container"></div>
@@ -40,9 +45,11 @@
         var lastTime;
         var ua = navigator.userAgent;
         var camera, scene, renderer, geometry, texture, mesh, renderer;
+        var controls;
 
         camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 1100);
         camera.target = new THREE.Vector3(0, 0, 0);
+        scene.add(camera);
 
         scene = new THREE.Scene();
         geometry = new THREE.SphereBufferGeometry(500, 60, 40);
@@ -63,9 +70,11 @@
         canvas = renderer.domElement;
         ctx = canvas.getContext("2d");
 
+        controls = new THREE.VRControls(camera);
+
         function animate() {
             texture.needsUpdate = true;
-            camera.lookAt( camera.target );
+            controls.update();
             requestAnimationFrame(animate);
             renderer.render(scene, camera);
         }
@@ -102,6 +111,7 @@
                     (function loop() {
                         video.currentTime = audio.currentTime;
                         texture.needsUpdate = true;
+                        controls.update();
                         renderer.render(scene, camera);
                         if (!audio.paused) {
                             requestAnimationFrame(loop);
