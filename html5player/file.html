@@ -2,9 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>Inline Movie on iPhone Safari - js do it</title>
-    <meta name="Description" content="jsdo.it - share JavaScript, HTML5 and CSS - "/>
-    <meta name="Keywords" content="JavaScript,HTML5,CSS"/>
+    <title>Inline Movie on iPhone Safari</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 
     <style type="text/css">* {
@@ -21,12 +19,17 @@
 </head>
 <body>
 <div id="container"></div>
+<button id="play-btn">CLICK ME</button>
 <script type="text/javascript">
     window.onload = function(){
+        var btn = document.getElementById('play-btn');
+        btn.disabled = true;
         var video = document.createElement('video');
         video.style.display = 'none';
         video.loop = true;
         document.body.appendChild(video);
+        var audio = new Audio();
+        var togglePlay;
         var container = document.getElementById( 'container' );
         var canvas;
         var ctx;
@@ -64,41 +67,48 @@
             renderer.render(scene, camera);
         }
 
-        
+
         if (/(iPhone|iPod)/.test(ua)) {
-            /*
-            video.addEventListener('canplay',function(){
-                lastTime = Date.now();
-                setInterval(function(){
-                    var curTime = Date.now();
-                    var diff = Date.now() - lastTime;
-                    lastTime = curTime;
-                    ctime += diff/1000;
-                    video.currentTime = ctime;
-                    console.log(video.currentTime);
-                    texture.needsUpdate = true;
-                    renderer.render(scene, camera);
-                    if(video.duration <= video.currentTime){
-                        ctime = 0;
-                    }
-                }, 1000/30);
-            },false);
-            */
-            var audio = new Audio();
+            var prms1 = new Promise(function (resolve, reject) {
+                video.addEventListener('canplay', function () {
+                    resolve();
+                });
+                video.addEventListener('error', function () {
+                    reject();
+                    alert('failed loading video');
+                });
+            });
+            var prms2 = new Promise(function (resolve, reject) {
+                audio.addEventListener('canplay', function () {
+                    resolve();
+                });
+                audio.addEventListener('error', function () {
+                    reject();
+                    alert('failed loading audio');
+                });
+            });
+            Promise.all([prms1, prms2]).then(function () {
+                btn.disabled = false;
+            });
             audio.src = '../video-1920x960.mp4';
-            audio.loop = true;
             audio.load();
-            audio.addEventListener('canplay',function(){
-                audio.play();
-                (function loop() {
-                    video.currentTime = audio.currentTime;
-                    texture.needsUpdate = true;
-                    renderer.render(scene, camera);
-                    if (!audio.paused) {
-                        requestAnimationFrame(loop);
-                    }
-                })();
-            },false);
+            togglePlay = function () {
+                if (audio.paused) {
+                    audio.play();
+                    (function loop() {
+                        video.currentTime = audio.currentTime;
+                        texture.needsUpdate = true;
+                        controls.update();
+                        renderer.render(scene, camera);
+                        if (!audio.paused) {
+                            requestAnimationFrame(loop);
+                        }
+                    })();
+                } else {
+                    audio.pause();
+                }
+            };
+            btn.addEventListener('click', togglePlay);
         } else {
             video.addEventListener('canplay', function () {
                 lastTime = Date.now();
