@@ -4,15 +4,7 @@
     <meta charset="UTF-8">
     <link href="./video-js.css" rel="stylesheet">
     <title>Title</title>
-    <style>
-        .video-js .vjs-tech {
-	        position: absolute!important;
-	        top: 0;
-	        left: 0;
-	        width: 100%!important;
-	        height: 100%!important;
-	    }
-    </style>
+
 </head>
 <body>
 <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls width="640" height="264"
@@ -23,15 +15,8 @@
         <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
     </p>
 </video>
-
 <script src="./video.js"></script>
 <script src="./videojs2canvas.js"></script>
-<script>
-    videojs("my-video").ready(function () {
-        var myPlayer = this;
-        myPlayer.vr();
-        //myPlayer.play();
-    });
-</script>
+
 </body>
 </html>
