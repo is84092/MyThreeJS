@@ -76,6 +76,7 @@
                     video.currentTime = ctime;
                     console.log(video.currentTime);
                     texture.needsUpdate = true;
+                    renderer.render(scene, camera);
                     if(video.duration <= video.currentTime){
                         ctime = 0;
                     }
