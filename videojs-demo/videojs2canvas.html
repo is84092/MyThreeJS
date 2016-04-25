@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="./video-js.css" rel="stylesheet">
+    <title>Title</title>
+</head>
+<body>
+<video id="my-video" class="video-js" controls preload="auto" width="640" height="264"
+       data-setup="{}">
+    <source src="video-1920x960.mp4" type='video/mp4'>
+    <p class="vjs-no-js">
+        To view this video please enable JavaScript, and consider upgrading to a web browser that
+        <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+</video>
+
+<script src="./video.js"></script>
+<script src="./videojs2canvas.js"></script>
+<script>
+    // initialize it
+    vid1 = videojs('my-video');
+    vid1.vr();
+</script>
+</body>
+</html>
