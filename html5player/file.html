@@ -66,6 +66,7 @@
 
         
         if (/(iPhone|iPod)/.test(ua)) {
+            /*
             video.addEventListener('canplay',function(){
                 lastTime = Date.now();
                 setInterval(function(){
@@ -81,6 +82,23 @@
                         ctime = 0;
                     }
                 }, 1000/30);
+            },false);
+            */
+            var audio = new Audio();
+            audio.src = 'video-1920x960.mp4';
+            audio.loop = true;
+            audio.load();
+            audio.addEventListener('canplay',function(){
+                audio.play();
+                (function loop() {
+                    video.currentTime = audio.currentTime;
+                    texture.needsUpdate = true;
+                    controls.update();
+                    renderer.render(scene, camera);
+                    if (!audio.paused) {
+                        requestAnimationFrame(loop);
+                    }
+                })();
             },false);
         } else {
             video.addEventListener('canplay', function () {
