@@ -7,8 +7,7 @@
 
 </head>
 <body>
-<video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls width="640" height="264"
-       data-setup='{"controls": true, "autoplay": false, "preload": "auto"}'>
+<video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls width="640" height="264">
     <source src="video-1920x960.mp4" type='video/mp4'>
     <p class="vjs-no-js">
         To view this video please enable JavaScript, and consider upgrading to a web browser that
@@ -18,7 +17,7 @@
 <script src="./video.js"></script>
 <script src="./videojs2canvas.js"></script>
 <script>
-    var player = videojs("my-video");
+    var player = videojs("my-video",{ "controls": true, "autoplay": false, "preload": "auto" });
     player.vr();
 </script>
 
