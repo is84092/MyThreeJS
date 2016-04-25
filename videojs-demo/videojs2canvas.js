@@ -24,7 +24,6 @@
 
         videoEl.parentElement.insertBefore(renderedCanvas, videoEl.parentElement.firstChild);
         videoEl.style.display = "none";
-        renderedCanvas.style.display = "none";
         
     };
 
