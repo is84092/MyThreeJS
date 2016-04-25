@@ -22,7 +22,7 @@
         renderedCanvas.style.width = "inherit";
         renderedCanvas.style.height = "inherit";
 
-        container.insertBefore(renderedCanvas, container.firstChild);
+        videoEl.parentElement.insertBefore(renderedCanvas, videoEl.parentElement.firstChild);
         videoEl.style.display = "none";
         renderedCanvas.style.display = "none";
         
