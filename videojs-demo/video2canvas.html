@@ -119,6 +119,7 @@
             scene.add( mesh );
             togglePlay = function () {
                 if (audio.paused) {
+                    video.play(); 	
                     audio.play();
                     (function loop() {
                         video.currentTime = audio.currentTime;
