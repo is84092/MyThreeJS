@@ -9,6 +9,9 @@
         body {
             background: #FFFFFF;
         }
+        .movie {
+            text-align: center;
+        }
         .control {
             text-align: center;
         }
@@ -24,7 +27,7 @@
     <script src="../videojs-demo/webvr-manager.js"></script>
 </head>
 <body>
-<div id="container"></div>
+<div id="container" class="movie"></div>
 <div class="control">
     <button>play/pause</button>
 </div>
@@ -137,7 +140,7 @@
         function onWindowResize(){
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
-            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setSize( window.innerWidth*0.9, window.innerHeight*0.9);
         }
     }
 </script>
