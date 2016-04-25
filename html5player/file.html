@@ -41,7 +41,7 @@
         var ua = navigator.userAgent;
         var camera, scene, renderer, geometry, texture, mesh, renderer;
 
-        camera = new THREE.PerspectiveCamera(75, 600 / 300, 1, 1100);
+        camera = new THREE.PerspectiveCamera(75, video.videoWidth/video.videoHeight, 1, 1100);
         camera.target = new THREE.Vector3(0, 0, 0);
 
         scene = new THREE.Scene();
@@ -58,7 +58,7 @@
 
         renderer = new THREE.WebGLRenderer();
         renderer.setPixelRatio( window.devicePixelRatio );
-        renderer.setSize( 600, 300);
+        renderer.setSize( video.videoWidth, video.videoHeight);
         container.appendChild( renderer.domElement );
         canvas = renderer.domElement;
         ctx = canvas.getContext("2d");
@@ -94,6 +94,7 @@
                 btn.disabled = false;
             });
             audio.src = '../video-1920x960.mp4';
+            audio.loop = true;
             audio.load();
             togglePlay = function () {
                 if (audio.paused) {
