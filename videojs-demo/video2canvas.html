@@ -118,8 +118,7 @@
             mesh = new THREE.Mesh( geometry, material );
             scene.add( mesh );
             togglePlay = function () {
-                if (audio.paused) {
-                    video.play(); 	
+                if (audio.paused) {	
                     audio.play();
                     (function loop() {
                         video.currentTime = audio.currentTime;
