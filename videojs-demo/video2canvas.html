@@ -56,13 +56,10 @@
 </head>
 <body>
 <div id="container" class="movie">
-	<button>play/pause</button>
 </div>
-<!--
 <div class="control">
     <button>play/pause</button>
 </div>
--->
 <script type="text/javascript">
     (function () {
         var btn = document.querySelector('button');
@@ -76,7 +73,7 @@
         var ua = navigator.userAgent;
         var camera, scene, renderer, geometry, texture, mesh;
         var controls;
-        var width = window.innerWidth, height = window.innerHeight / 2;
+        var width = window.innerWidth, height = window.innerHeight;
         if (/(iPhone|iPod)/.test(ua)) {
             var prms1 = new Promise(function (resolve, reject) {
                 video.addEventListener('canplay', function () {
@@ -159,7 +156,7 @@
     			console.log("not support");
   		}     
 	    };
-	    window.addEventListener( 'resize', onWindowResize, false );
+	    //window.addEventListener( 'resize', onWindowResize, false );
 	    function onWindowResize(){
 		camera.aspect = window.innerWidth / window.innerHeight;
     		camera.updateProjectionMatrix();
