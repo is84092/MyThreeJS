@@ -98,7 +98,6 @@
                     (function loop() {
                         video.currentTime = audio.currentTime;
                         texture.needsUpdate = true;
-                        controls.update();
                         renderer.render(scene, camera);
                         if (!audio.paused) {
                             requestAnimationFrame(loop);
