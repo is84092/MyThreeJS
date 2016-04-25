@@ -49,7 +49,7 @@
 
         camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 1100);
         camera.target = new THREE.Vector3(0, 0, 0);
-        
+
 
         scene = new THREE.Scene();
         geometry = new THREE.SphereBufferGeometry(500, 60, 40);
@@ -124,6 +124,7 @@
             };
             btn.addEventListener('click', togglePlay);
         } else {
+            btn.style.display = "none";
             video.addEventListener('canplay', function () {
                 lastTime = Date.now();
                 video.play();
