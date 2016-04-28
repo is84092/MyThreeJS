@@ -74,7 +74,7 @@
         canvas = renderer.domElement;
         ctx = canvas.getContext("2d");
 
-        //controls = new THREE.VRControls(camera);
+        controls = new THREE.VRControls(camera);
 
         function animate() {
             texture.needsUpdate = true;
@@ -106,7 +106,7 @@
             Promise.all([prms1, prms2]).then(function () {
                 btn.disabled = false;
             });
-            audio.src = '../index.m3u8';
+            audio.src = 'SampleVideo_1280x720_1mb.mp4';
             audio.loop = true;
             audio.load();
             togglePlay = function () {
@@ -115,7 +115,7 @@
                     (function loop() {
                         video.currentTime = audio.currentTime;
                         texture.needsUpdate = true;
-                        //controls.update();
+                        controls.update();
                         renderer.render(scene, camera);
                         if (!audio.paused) {
                             requestAnimationFrame(loop);
@@ -134,7 +134,7 @@
                 animate();
             }, false);
         }
-        video.src = '../index.m3u8';
+        video.src = 'SampleVideo_1280x720_1mb.mp4';
         video.load();
         window.addEventListener( 'resize', onWindowResize, false );
         function onWindowResize(){
