@@ -67,7 +67,7 @@
         scene.add(mesh);
         scene.add(camera);
 
-        renderer = new THREE.CanvasRenderer();
+        renderer = new THREE.WebGLRenderer();
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.setSize( window.innerWidth*0.9, window.innerHeight*0.9);
         container.appendChild( renderer.domElement );
@@ -143,16 +143,16 @@
             renderer.setSize( window.innerWidth*0.9, window.innerHeight*0.9);
         }
         function webglAvailable() {
-		    try {
-			    var canvas = document.createElement( 'canvas' );
-			    return !!( window.WebGLRenderingContext && (
-				    canvas.getContext( 'webgl' ) ||
-				    canvas.getContext( 'experimental-webgl' ) )
-			    );
-		    } catch ( e ) {
-			    return false;
-		    }
-	    };
+		try {
+			var canvas = document.createElement( 'canvas' );
+			return !!( window.WebGLRenderingContext && (
+				canvas.getContext( 'webgl' ) ||
+				canvas.getContext( 'experimental-webgl' ) )
+			);
+	        } catch ( e ) {
+			return false;
+		}
+	};
 
     }
 </script>
