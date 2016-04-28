@@ -74,7 +74,7 @@
         canvas = renderer.domElement;
         ctx = canvas.getContext("2d");
 
-        controls = new THREE.VRControls(camera);
+        //controls = new THREE.VRControls(camera);
 
         function animate() {
             texture.needsUpdate = true;
@@ -115,7 +115,7 @@
                     (function loop() {
                         video.currentTime = audio.currentTime;
                         texture.needsUpdate = true;
-                        controls.update();
+                        //controls.update();
                         renderer.render(scene, camera);
                         if (!audio.paused) {
                             requestAnimationFrame(loop);
