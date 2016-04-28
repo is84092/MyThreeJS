@@ -17,46 +17,42 @@ body {
   font: 24px sans-serif;
 }</style></head>
 <body>
-自動再生です
-<canvas width="640" height="360" id="myCanvas"></canvas>
+<div id="container" class="movie"></div>
+<div class="control">
+    <button>play/pause</button>
+</div>
 <script type="text/javascript">
 window.onload = function(){
-	var video = document.createElement('video');
-	video.style.display = 'none';
-	document.body.appendChild(video);
-	var canvas = document.getElementById('myCanvas');
-	var ctx = canvas.getContext("2d");
-	var ctime = 0;
-	var lastTime;
-    var ua = navigator.userAgent;
-    if(/(iPhone|iPod)/.test(ua)) { // iPadもVideoはインライン再生可能である
-        video.addEventListener('canplay',function(){
-            lastTime = Date.now();
-            setInterval(function(){
-                var curTime = Date.now();
-                var diff = Date.now() - lastTime;
-                lastTime = curTime;
-                ctime += diff/1000;
-                video.currentTime = ctime;
-                ctx.drawImage(video, 0, 0, 480, 360);
-                if(video.duration <= video.currentTime){
-                    ctime = 0;
+        var btn = document.querySelector('button');
+        btn.disabled = true;
+        var audio = new Audio();
+        var togglePlay;
+        if (/(iPhone|iPod)/.test(ua)) {
+            var prms2 = new Promise(function (resolve, reject) {
+                audio.addEventListener('canplay', function () {
+                    resolve();
+                });
+                audio.addEventListener('error', function () {
+                    reject();
+                    alert('failed loading audio');
+                });
+            });
+            Promise.all([prms2]).then(function () {
+                btn.disabled = false;
+            });
+            audio.src = '../video-1920x960.mp4';
+            audio.loop = true;
+            audio.load();
+            togglePlay = function () {
+                if (audio.paused) {
+                    audio.play();
+                } else {
+                    audio.pause();
                 }
-            }, 1000/30);
-        },false);
-    }else{
-        video.addEventListener('canplay',function(){
-            lastTime = Date.now();
-            video.play();
-            video.loop = true;
-            setInterval(function(){
-                ctx.drawImage(video, 0, 0, 480, 360);
-            }, 1000/30);
-        },false);
+            };
+            btn.addEventListener('click', togglePlay);
+        }
     }
-	video.src = 'http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8';
-	video.load();
-  }
 </script>
 </body>
 </html>
