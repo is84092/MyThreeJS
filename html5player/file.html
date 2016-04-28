@@ -38,6 +38,7 @@
         var video = document.createElement('video');
         video.style.display = 'none';
         video.loop = true;
+        video.crossOrigin = "anonymous";
         document.body.appendChild(video);
         var audio = new Audio();
         var togglePlay;
