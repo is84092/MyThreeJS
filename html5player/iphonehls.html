@@ -103,7 +103,7 @@
             Promise.all([prms1, prms2]).then(function () {
                 btn.disabled = false;
             });
-            audio.src = '../index.m3u8';
+            audio.src = 'SampleVideo_1280x720_1mb.mp4';
             audio.loop = true;
             audio.load();
             togglePlay = function () {
@@ -126,7 +126,7 @@
             };
             btn.addEventListener('click', togglePlay);
         }
-        video.src = '../index.m3u8';
+        video.src = 'SampleVideo_1280x720_1mb.mp4';
         video.load();
         window.addEventListener( 'resize', onWindowResize, false );
         function onWindowResize(){
