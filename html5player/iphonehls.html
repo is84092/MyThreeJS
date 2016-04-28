@@ -15,22 +15,55 @@
 body {
   background: #FFFFFF;
   font: 24px sans-serif;
-}</style></head>
+}</style>
+
+<script src="../videojs-demo/three.min.js"></script>
+<script src="../videojs-demo/CanvasRenderer.js"></script>
+<script src="../videojs-demo/Projector.js"></script>
+
+</head>
 <body>
 自動再生です
-<canvas width="640" height="360" id="myCanvas"></canvas>
 <script type="text/javascript">
 window.onload = function(){
+	var container = document.createElement('div');
+	document.body.appendChild( container );
+	
+	var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
+	camera.position.z = 1000;
+	var scene = new THREE.Scene();
+
 	var video = document.createElement('video');
 	video.style.display = 'none';
 	document.body.appendChild(video);
-	var canvas = document.getElementById('myCanvas');
-	var ctx = canvas.getContext("2d");
+	var canvas = document.createElement( 'canvas' );
+	canvas.width = 480;
+	canvas.height = 360;
+	var imageContext = canvas.getContext("2d");
+	imageContext.fillStyle = '#000000';
+	imageContext.fillRect( 0, 0, 480, 360);
+
+	var texture = new THREE.Texture(canvas);
+	texture.minFilter = THREE.LinearFilter;
+	texture.magFilter = THREE.LinearFilter;
+	
+	var material = new THREE.MeshBasicMaterial( { map: texture, overdraw: true } );
+
+	var plane = new THREE.PlaneGeometry( 480, 360, 4, 4 );
+	var mesh = new THREE.Mesh( plane, material );
+	mesh.scale.x = mesh.scale.y = mesh.scale.z = 1.5;
+	scene.add(mesh);
+	
+	renderer = new THREE.CanvasRenderer();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	container.appendChild( renderer.domElement );
+	
+	
 	var ctime = 0;
 	var lastTime;
-    var ua = navigator.userAgent;
-    if(/(iPhone|iPod)/.test(ua)) { // iPadもVideoはインライン再生可能である
-        video.addEventListener('canplay',function(){
+	 var ua = navigator.userAgent;
+    	if(/(iPhone|iPod)/.test(ua)) { // iPadもVideoはインライン再生可能である
+	 video.addEventListener('canplay',function(){
             lastTime = Date.now();
             setInterval(function(){
                 var curTime = Date.now();
@@ -38,7 +71,10 @@ window.onload = function(){
                 lastTime = curTime;
                 ctime += diff/1000;
                 video.currentTime = ctime;
-                ctx.drawImage(video, 0, 0, 480, 360);
+                imageContext.drawImage(video, 0, 0, 480, 360);
+                camera.lookAt( scene.position );
+                texture.needsUpdate = true;
+                renderer.render( scene, camera );
                 if(video.duration <= video.currentTime){
                     ctime = 0;
                 }
