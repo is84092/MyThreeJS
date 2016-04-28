@@ -1,151 +1,113 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8"/>
-    <title>Inline Movie on iPhone Safari</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+<meta charset="UTF-8" /><title>Inline Movie on iPhone Safari with Sound - js do it</title>
+<meta name="Description" content="jsdo.it - share JavaScript, HTML5 and CSS - " />
+<meta name="Keywords"  content="JavaScript,HTML5,CSS" />
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 
-    <style type="text/css">
-        body {
-            background: #FFFFFF;
-        }
-        .movie {
-            text-align: center;
-        }
-        .control {
-            text-align: center;
-        }
-        .control button {
-            font-size: 24px;
-        }
-    </style>
-    <script src="../videojs-demo/three.min.js"></script>
-    <script src="../videojs-demo/CanvasRenderer.js"></script>
-    <script src="../videojs-demo/Projector.js"></script>
-    <script src="../videojs-demo/VRControls.js"></script>
-    <script src="../videojs-demo/webvr-polyfill.js"></script>
-    <script src="../videojs-demo/webvr-manager.js"></script>
-</head>
+<link href="/lib/html5reset-1.6.1/css" type="text/css" rel="stylesheet" />
+
+<style type="text/css">body {
+  background: #FFFFFF;
+}
+.title {
+  margin: 10px auto;
+  text-align: center;
+}
+.movie {
+  text-align: center;
+  margin: 10px auto;
+}
+.movie video {
+  margin: 0px auto;
+  width: 320px;
+  height: 180px;
+}
+.control {
+  text-align: center;
+}
+.control button {
+  font-size: 24px;
+}
+</style></head>
 <body>
-<div id="container" class="movie"></div>
-<div class="control">
-    <button>play/pause</button>
-</div>
+<div class="title">再生可能になったらボタン有効化</div>
+<div class="movie"><canvas width="320" height="180" id="myCanvas"></canvas></div>
+<div class="control"><button>play/pause</button></div>
 <script type="text/javascript">
-    window.onload = function(){
-        var btn = document.querySelector('button');
-        btn.disabled = true;
-        var video = document.createElement('video');
-        video.style.display = 'none';
-        video.loop = true;
-        document.body.appendChild(video);
-        var audio = new Audio();
-        var togglePlay;
-        var container = document.getElementById( 'container' );
-        var canvas;
-        var ctx;
-        var ctime = 0;
-        var lastTime;
-        var ua = navigator.userAgent;
-        var camera, scene, renderer, geometry, texture, mesh, renderer;
-        var controls;
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 1100);
-        camera.target = new THREE.Vector3(0, 0, 0);
-        scene = new THREE.Scene();
-        canvas = document.createElement( 'canvas' );
-	canvas.width = 480;
-	canvas.height = 360;
-	
-	var imageContext = canvas.getContext("2d");
-	imageContext.fillStyle = '#000000';
-	imageContext.fillRect( 0, 0, 480, 360);
-        
-        geometry = new THREE.SphereBufferGeometry(500, 60, 40);
-        geometry.scale(-1, 1, 1);
-        texture = new THREE.Texture(canvas);
-        texture.minFilter = THREE.LinearFilter;
-	texture.magFilter = THREE.LinearFilter;
-        texture.format = THREE.RGBFormat;
-        
-        material = new THREE.MeshBasicMaterial({map: texture, overdraw: true });
-        mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
-        scene.add(camera);
-        renderer = new THREE.CanvasRenderer();
-	renderer.setSize( window.innerWidth *0.8, window.innerHeight*0.8 );
-	container.appendChild( renderer.domElement );
-        //controls = new THREE.VRControls(camera);
-        function animate() {
-            texture.needsUpdate = true;
-            controls.update();
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
-        }
-        if (/(iPhone|iPod)/.test(ua)) {
-            var prms1 = new Promise(function (resolve, reject) {
-                video.addEventListener('canplay', function () {
-                    resolve();
-                });
-                video.addEventListener('error', function () {
-                    reject();
-                    alert('failed loading video');
-                });
+(function(){
+    var btn = document.querySelector('button');
+    btn.disabled = true;
+    var audio = new Audio();
+	var video = document.createElement('video');
+	video.style.display = 'none';
+	document.body.appendChild(video);
+    var canvas = document.getElementById('myCanvas');
+    var ctx = canvas.getContext("2d");
+    var togglePlay;
+    var ua = navigator.userAgent;
+    if(/(iPhone|iPod)/.test(ua)) { // iPadもVideoはインライン再生可能である
+        ctx.scale(0.5,0.5);
+        var prms1 = new Promise(function(resolve, reject) {
+            video.addEventListener('canplay',function(){
+                resolve();
             });
-            var prms2 = new Promise(function (resolve, reject) {
-                audio.addEventListener('canplay', function () {
-                    resolve();
-                });
-                audio.addEventListener('error', function () {
-                    reject();
-                    alert('failed loading audio');
-                });
+            video.addEventListener('error',function(){
+                reject();
+                alert('failed loading video');
             });
-            Promise.all([prms1, prms2]).then(function () {
-                btn.disabled = false;
+        });
+        var prms2 = new Promise(function(resolve, reject) {
+            audio.addEventListener('canplay',function(){
+                resolve();
             });
-            audio.src = 'SampleVideo_1280x720_1mb.mp4';
-            audio.loop = true;
-            audio.load();
-            togglePlay = function () {
-                if (audio.paused) {
-                    audio.play();
-                    (function loop() {
-                        video.currentTime = audio.currentTime;
-                        console.log(video.currentTime);
-                        imageContext.drawImage(video, 0, 0);
-                        texture.needsUpdate = true;
-                        //controls.update();
-                        renderer.render(scene, camera);
-                        if (!audio.paused) {
-                            requestAnimationFrame(loop);
-                        }
-                    })();
-                } else {
-                    audio.pause();
-                }
-            };
-            btn.addEventListener('click', togglePlay);
-        }
-        video.src = 'SampleVideo_1280x720_1mb.mp4';
+            audio.addEventListener('error',function(){
+                reject();
+                alert('failed loading audio');
+            });
+        });
+        Promise.all([prms1,prms2]).then(function(){
+            btn.disabled = false;
+        });
+        video.src = 'https://videos-origin.mozilla.org/uploads/mozillaorg/meetFFXmobile2-640x360.mp4';
         video.load();
-        window.addEventListener( 'resize', onWindowResize, false );
-        function onWindowResize(){
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize( window.innerWidth*0.9, window.innerHeight*0.9);
-        }
-        function webglAvailable() {
-		try {
-			var canvas = document.createElement( 'canvas' );
-			return !!( window.WebGLRenderingContext && (
-				canvas.getContext( 'webgl' ) ||
-				canvas.getContext( 'experimental-webgl' ) )
-			);
-	        } catch ( e ) {
-			return false;
-		}
-	};
+        audio.src = 'https://videos-origin.mozilla.org/uploads/mozillaorg/meetFFXmobile2-640x360.mp4'; // 動画ファイルを突っ込んでも再生される
+        audio.load();
+        
+        togglePlay = function(){
+            if(audio.paused){
+                audio.play();
+                (function loop(){
+                    video.currentTime = audio.currentTime;
+                    ctx.drawImage(video, 0, 0, 640, 360);
+                    if(!audio.paused){
+                        requestAnimationFrame( loop );
+                    }
+                })();
+            } else {
+                audio.pause();
+            }
+        };
+    } else { // AndroidとかiPadなら素直にVideoタグで再生
+        canvas.parentNode.insertBefore(video,canvas);
+        video.style.display = 'block';
+        video.addEventListener('canplay',function(){
+            btn.disabled = false;
+        });
+        video.src = 'https://videos-origin.mozilla.org/uploads/mozillaorg/meetFFXmobile2-640x360.mp4';
+        video.load();
+        canvas.parentNode.removeChild(canvas);
+        togglePlay = function(){
+            if(video.paused){
+                video.play();
+            } else {
+                video.pause();
+            }
+        };
     }
+    btn.addEventListener('click',togglePlay);
+})();
 </script>
 </body>
 </html>
