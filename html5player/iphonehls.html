@@ -82,7 +82,7 @@
         
         container = document.getElementById( 'container' );
         
-        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1100 );
+        camera = new THREE.PerspectiveCamera( 75, 320 / 180, 1, 1100 );
 	camera.target = new THREE.Vector3( 0, 0, 0 );
 	scene = new THREE.Scene();
 	
@@ -99,7 +99,7 @@
 	
 	renderer = new THREE.WebGLRenderer();
 	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize( 640, 360 );
+	renderer.setSize( 320, 180);
 	container.appendChild(renderer.domElement);
         
         togglePlay = function(){
