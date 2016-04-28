@@ -111,7 +111,7 @@
                     audio.play();
                     (function loop() {
                         video.currentTime = audio.currentTime;
-                        ctx.(video, 0, 0 );
+                        ctx.drawImage( video, 0, 0 );
                         texture.needsUpdate = true;
                         controls.update();
                         renderer.render(scene, camera);
