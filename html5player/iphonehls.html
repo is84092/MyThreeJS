@@ -33,19 +33,22 @@
 </style></head>
 <body>
 <div class="movie"><canvas width="320" height="180" id="myCanvas"></canvas></div>
+<div id="container"></div>
 <div class="control"><button>play/pause</button></div>
 <script type="text/javascript">
 (function(){
     var btn = document.querySelector('button');
     btn.disabled = true;
     var audio = new Audio();
-	var video = document.createElement('video');
+    var video = document.createElement('video');
 	video.style.display = 'none';
 	document.body.appendChild(video);
     var canvas = document.getElementById('myCanvas');
     var ctx = canvas.getContext("2d");
     var togglePlay;
     var ua = navigator.userAgent;
+    var container, camera, scene, geometry, texture, material, mesh, renderer;
+    
     if(/(iPhone|iPod)/.test(ua)) { 
         ctx.scale(0.5,0.5);
         var prms1 = new Promise(function(resolve, reject) {
@@ -74,12 +77,36 @@
         audio.src = 'SampleVideo_1280x720_1mb.mp4'; 
         audio.load();
         
+        container = document.getElementById( 'container' );
+        
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1100 );
+	camera.target = new THREE.Vector3( 0, 0, 0 );
+	scene = new THREE.Scene();
+	
+	geometry = new THREE.SphereBufferGeometry( 500, 60, 40 );
+	geometry.scale( - 1, 1, 1 );
+        
+        texture = new THREE.Texture(canvas);
+	texture.minFilter = THREE.LinearFilter;
+	texture.format = THREE.RGBFormat;
+	
+	material = new THREE.MeshBasicMaterial( { map : texture } );
+	mesh = new THREE.Mesh( geometry, material );
+	scene.add( mesh );
+	
+	renderer = new THREE.WebGLRenderer();
+	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	container.appendChild(renderer.domElement);
+        
         togglePlay = function(){
             if(audio.paused){
                 audio.play();
                 (function loop(){
                     video.currentTime = audio.currentTime;
                     ctx.drawImage(video, 0, 0, 640, 360);
+                    texture.needsUpdate = true;
+                    renderer.render( scene, camera );
                     if(!audio.paused){
                         requestAnimationFrame( loop );
                     }
