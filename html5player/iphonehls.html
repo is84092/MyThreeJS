@@ -70,9 +70,9 @@
         Promise.all([prms1,prms2]).then(function(){
             btn.disabled = false;
         });
-        video.src = 'https://videos-origin.mozilla.org/uploads/mozillaorg/meetFFXmobile2-640x360.mp4';
+        video.src = '../index.m3u8';
         video.load();
-        audio.src = 'https://videos-origin.mozilla.org/uploads/mozillaorg/meetFFXmobile2-640x360.mp4'; // 動画ファイルを突っ込んでも再生される
+        audio.src = '../index.m3u8'; // 動画ファイルを突っ込んでも再生される
         audio.load();
         
         togglePlay = function(){
