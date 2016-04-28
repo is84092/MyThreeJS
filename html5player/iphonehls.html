@@ -35,6 +35,7 @@ window.onload = function(){
 
 	var video = document.createElement('video');
 	video.style.display = 'none';
+	video.loop = true;
 	document.body.appendChild(video);
 	var canvas = document.createElement( 'canvas' );
 	canvas.width = 480;
@@ -71,6 +72,7 @@ window.onload = function(){
                 lastTime = curTime;
                 ctime += diff/1000;
                 video.currentTime = ctime;
+                console.log(video.currentTime);
                 imageContext.drawImage(video, 0, 0, 480, 360);
                 camera.lookAt( scene.position );
                 texture.needsUpdate = true;
