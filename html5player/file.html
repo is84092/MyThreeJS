@@ -67,13 +67,7 @@
         scene.add(mesh);
         scene.add(camera);
 
-        if ( webglAvailable() ) {
-            console.log("WebGLRenderer()");
-		    renderer = new THREE.WebGLRenderer();
-	    } else {
-	        console.log("CanvasRenderer()");
-		    renderer = new THREE.CanvasRenderer();
-	    }
+        renderer = new THREE.CanvasRenderer();
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.setSize( window.innerWidth*0.9, window.innerHeight*0.9);
         container.appendChild( renderer.domElement );
