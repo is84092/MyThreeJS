@@ -106,7 +106,7 @@
             Promise.all([prms1, prms2]).then(function () {
                 btn.disabled = false;
             });
-            audio.src = '../video-1920x960.mp4';
+            audio.src = '../index.m3u8';
             audio.loop = true;
             audio.load();
             togglePlay = function () {
@@ -134,7 +134,7 @@
                 animate();
             }, false);
         }
-        video.src = '../video-1920x960.mp4';
+        video.src = '../index.m3u8';
         video.load();
         window.addEventListener( 'resize', onWindowResize, false );
         function onWindowResize(){
