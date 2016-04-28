@@ -28,6 +28,7 @@ window.onload = function(){
         var btn = document.querySelector('button');
         btn.disabled = true;
         var audio = new Audio();
+         var ua = navigator.userAgent;
         var togglePlay;
         if (/(iPhone|iPod)/.test(ua)) {
             var prms2 = new Promise(function (resolve, reject) {
