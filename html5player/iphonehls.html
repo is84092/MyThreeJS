@@ -20,11 +20,6 @@
         }
     </style>
     <script src="../videojs-demo/three.min.js"></script>
-    <script src="../videojs-demo/CanvasRenderer.js"></script>
-    <script src="../videojs-demo/Projector.js"></script>
-    <script src="../videojs-demo/VRControls.js"></script>
-    <script src="../videojs-demo/webvr-polyfill.js"></script>
-    <script src="../videojs-demo/webvr-manager.js"></script>
 </head>
 <body>
 <div id="container" class="movie"></div>
@@ -73,8 +68,7 @@
         renderer = new THREE.CanvasRenderer();
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
-        
-        controls = new THREE.VRControls(camera);
+       
         function animate() {
             texture.needsUpdate = true;
             controls.update();
@@ -113,7 +107,6 @@
                         video.currentTime = audio.currentTime;
                         ctx.drawImage( video, 0, 0 );
                         texture.needsUpdate = true;
-                        controls.update();
                         renderer.render(scene, camera);
                         if (!audio.paused) {
                             requestAnimationFrame(loop);
