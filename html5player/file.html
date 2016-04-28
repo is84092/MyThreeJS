@@ -67,7 +67,13 @@
         scene.add(mesh);
         scene.add(camera);
 
-        renderer = new THREE.WebGLRenderer({ antialias: true });
+        if ( webglAvailable() ) {
+            console.log("WebGLRenderer()");
+		    renderer = new THREE.WebGLRenderer();
+	    } else {
+	        console.log("CanvasRenderer()");
+		    renderer = new THREE.CanvasRenderer();
+	    }
         renderer.setPixelRatio( window.devicePixelRatio );
         renderer.setSize( window.innerWidth*0.9, window.innerHeight*0.9);
         container.appendChild( renderer.domElement );
@@ -142,6 +148,18 @@
             camera.updateProjectionMatrix();
             renderer.setSize( window.innerWidth*0.9, window.innerHeight*0.9);
         }
+        function webglAvailable() {
+		    try {
+			    var canvas = document.createElement( 'canvas' );
+			    return !!( window.WebGLRenderingContext && (
+				    canvas.getContext( 'webgl' ) ||
+				    canvas.getContext( 'experimental-webgl' ) )
+			    );
+		    } catch ( e ) {
+			    return false;
+		    }
+	    };
+
     }
 </script>
 </body>
