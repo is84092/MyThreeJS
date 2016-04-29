@@ -10,6 +10,10 @@
 <script src="../videojs-demo/three.min.js"></script>
 <script src="../videojs-demo/CanvasRenderer.js"></script>
 <script src="../videojs-demo/Projector.js"></script>
+<script src="../videojs-demo/VRControls.js"></script>
+<script src="../videojs-demo/webvr-polyfill.js"></script>
+<script src="../videojs-demo/webvr-manager.js"></script>
+
 
 <style type="text/css">body {
   background: #FFFFFF;
@@ -55,7 +59,7 @@
     var ctx = canvas.getContext("2d");
     var togglePlay;
     var ua = navigator.userAgent;
-    var container, camera, scene, geometry, texture, material, mesh, renderer;
+    var container, camera, scene, geometry, texture, material, mesh, renderer, controls;
     
     if(/(iPhone|iPod)/.test(ua)) { 
         ctx.scale(0.5,0.5);
@@ -89,6 +93,9 @@
         
         camera = new THREE.PerspectiveCamera( 75, 320 / 180, 1, 1100 );
 	camera.target = new THREE.Vector3( 0, 0, 0 );
+	
+	controls = new THREE.VRControls(camera);
+	
 	scene = new THREE.Scene();
 	
 	geometry = new THREE.SphereBufferGeometry( 500, 60, 40 );
@@ -114,6 +121,7 @@
                     video.currentTime = audio.currentTime;
                     ctx.drawImage(video, 0, 0, 640, 360);
                     texture.needsUpdate = true;
+                    controls.update();
                     renderer.render( scene, camera );
                     if(!audio.paused){
                         requestAnimationFrame( loop );
