@@ -43,7 +43,7 @@
 }
 </style></head>
 <body>
-<div class="movie"><canvas width="640" height="320" id="myCanvas"></canvas></div>
+<div class="movie"><canvas width="320" height="180" id="myCanvas"></canvas></div>
 <div id="container" class="container"></div>
 <div class="control"><button>play/pause</button></div>
 <script type="text/javascript">
@@ -91,14 +91,14 @@
         
         container = document.getElementById( 'container' );
         
-        camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight , 1, 1100 );
+        camera = new THREE.PerspectiveCamera( 75, 640/360 , 1, 1100 );
 	camera.target = new THREE.Vector3( 0, 0, 0 );
 	
 	controls = new THREE.VRControls(camera);
 	
 	scene = new THREE.Scene();
 	
-	geometry = new THREE.SphereBufferGeometry( 50, 60, 40 );
+	geometry = new THREE.SphereBufferGeometry( 5, 60, 40 );
 	geometry.scale( - 1, 1, 1 );
         
         texture = new THREE.Texture(canvas);
@@ -111,7 +111,7 @@
 	
 	renderer = new THREE.WebGLRenderer();
 	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.setSize(640,360);
 	container.appendChild(renderer.domElement);
         
         togglePlay = function(){
@@ -119,7 +119,7 @@
                 audio.play();
                 (function loop(){
                     video.currentTime = audio.currentTime;
-                    ctx.drawImage(video, 0, 0, 640,320);
+                    ctx.drawImage(video, 0, 0, 640,360);
                     texture.needsUpdate = true;
                     controls.update();
                     renderer.render( scene, camera );
