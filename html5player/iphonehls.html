@@ -43,7 +43,7 @@
 }
 </style></head>
 <body>
-<div class="movie"><canvas width="320" height="180" id="myCanvas"></canvas></div>
+<div class="movie"><canvas width="640" height="320" id="myCanvas"></canvas></div>
 <div id="container" class="container"></div>
 <div class="control"><button>play/pause</button></div>
 <script type="text/javascript">
@@ -53,8 +53,8 @@
     var audio = new Audio();
     var video = document.createElement('video');
 	video.style.display = 'none';
-	video.width = 1920;
-	video.height = 960;
+	video.width = 640;
+	video.height = 320;
 	document.body.appendChild(video);
     var canvas = document.getElementById('myCanvas');
     canvas.style.display = 'none';
@@ -121,7 +121,7 @@
                 audio.play();
                 (function loop(){
                     video.currentTime = audio.currentTime;
-                    ctx.drawImage(video, 0, 0);
+                    ctx.drawImage(video, 0, 0, 640,320);
                     texture.needsUpdate = true;
                     controls.update();
                     renderer.render( scene, camera );
