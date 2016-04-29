@@ -53,8 +53,8 @@
     var audio = new Audio();
     var video = document.createElement('video');
 	video.style.display = 'none';
-	video.width = 1280;
-	video.height = 640;
+	video.width = 1920;
+	video.height = 960;
 	document.body.appendChild(video);
     var canvas = document.getElementById('myCanvas');
     canvas.style.display = 'none';
@@ -86,9 +86,9 @@
         Promise.all([prms1,prms2]).then(function(){
             btn.disabled = false;
         });
-        video.src = '1280x640pano.mp4';
+        video.src = '../video-1920x960.mp4';
         video.load();
-        audio.src = '1280x640pano.mp4'; 
+        audio.src = '../video-1920x960.mp4'; 
         audio.load();
         
         container = document.getElementById( 'container' );
