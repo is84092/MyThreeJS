@@ -1,94 +1,52 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scroll Test</title>
-
-    <style>
-        html, body {
-            height: 100%;
-        }
-
-        html {
-            background-color: red;
-        }
-
-        body {
-            background-color: blue;
-            margin: 0;
-        }
-
-        div.header {
-            width: 100%;
-            height: 40px;
-            background-color: green;
-            overflow: hidden;
-        }
-
-        div.content {
-            height: 100%;
-            height: calc(100% - 40px);
-            width: 100%;
-            background-color: purple;
-            overflow: hidden;
-        }
-
-        div.cover {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            display: none;
-        }
-
-        @media screen and (width: 320px) {
-            html {
-                height: calc(100% + 72px);
-            }
-
-            div.cover {
-                display: block;
-            }
-        }
-    </style>
-    <script>
-        var timeout;
-
-        window.addEventListener('scroll', function(ev) {
-
-            if (timeout) {
-                clearTimeout(timeout);
-            }
-
-            timeout = setTimeout(function() {
-
-                if (window.scrollY > 0) {
-                    var cover = document.querySelector('div.cover');
-                    cover.style.display = 'none';
-                }
-
-            }, 200);
-
-        });
-    </script>
+    <link href="http://gajus.com/sandbox/brim/demo/main.css" rel="stylesheet">
+    
+    <script src="http://gajus.com/sandbox/brim/dist/brim.js"></script>
+    <script src="http://gajus.com/sandbox/brim/node_modules/scream/dist/scream.js"></script>
+    <script src="http://gajus.com/sandbox/brim/node_modules/platform/platform.js"></script>
 </head>
 <body>
+    <div id="brim-main">
+        <p>Hello, I am the <b>main</b> element.</p>
+        <p>When in the portrait orientation, there is a remaining chrome at the top. Changing the document background color will change the shade of the remaining chrome.</p>
+        <p>Tap the top of the screen to leave the minimal-ui.</p>
+    </div>
+    <div id="brim-mask">
+        <p>Hello, I am the <b>mask</b> element.</p>
+        <p>My purpose is to hide the <b>main</b> element when browser is not in the minimal view and give user instructions how to enter the minimal view.</p>
+        <p>Behind me is the <b>treadmill</b> element. It has been generated dynamically. It is used to give user plenty of space to scroll down.</p>
+        <p>Scroll down to hide me.</p>
+    </div>
+    <div id="not-ios-8">
+        <p>This demo has been designed for iOS 8.</p>
+    </div>
+    
+    <script>
+    var scream,
+        brim;
 
-    <div class="header">
-        <p>header</p>
-    </div>
-    <div class="content">
-        <p>content</p>
-    </div>
-    <div class="cover">
-        <p>scroll to soft fullscreen</p>
-    </div>
 
+
+    if (platform.os.family == 'iOS' && parseInt(platform.os.version, 10) > 8 || platform.ua.indexOf('like Mac OS X') != -1) {
+        scream = gajus.Scream({
+            width: {
+                portrait: 320,
+                landscape: 568
+            }
+        });
+
+        brim = gajus.Brim({
+            viewport: scream
+        });
+
+        brim.on('viewchange', function (e) {
+            document.body.className = e.viewName;
+        });
+    } else {
+        document.querySelector('#not-ios-8').style.display = 'block';
+    }
+    </script>
 </body>
 </html>
