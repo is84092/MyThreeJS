@@ -62,7 +62,7 @@
     var container, camera, scene, geometry, texture, material, mesh, renderer, controls;
     
     if(/(iPhone|iPod)/.test(ua)) { 
-        ctx.scale(0.5,0.5);
+        //ctx.scale(0.5,0.5);
         var prms1 = new Promise(function(resolve, reject) {
             video.addEventListener('canplay',function(){
                 resolve();
@@ -91,7 +91,7 @@
         
         container = document.getElementById( 'container' );
         
-        camera = new THREE.PerspectiveCamera( 75, 640/360 , 1, 1100 );
+        camera = new THREE.PerspectiveCamera( 75, 320/180 , 1, 1100 );
 	camera.target = new THREE.Vector3( 0, 0, 0 );
 	
 	controls = new THREE.VRControls(camera);
@@ -111,7 +111,7 @@
 	
 	renderer = new THREE.WebGLRenderer();
 	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize(640,360);
+	renderer.setSize(320,180);
 	container.appendChild(renderer.domElement);
         
         togglePlay = function(){
@@ -119,7 +119,7 @@
                 audio.play();
                 (function loop(){
                     video.currentTime = audio.currentTime;
-                    ctx.drawImage(video, 0, 0, 640,360);
+                    ctx.drawImage(video, 0, 0, 320,180);
                     texture.needsUpdate = true;
                     controls.update();
                     renderer.render( scene, camera );
