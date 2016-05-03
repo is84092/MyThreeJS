@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" /><title>Inline Movie on iPhone Safari with Sound - js do it</title>
+    <meta name="Description" content="jsdo.it - share JavaScript, HTML5 and CSS - " />
+    <meta name="Keywords"  content="JavaScript,HTML5,CSS" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+    <link href="http://jsrun.it/lib/html5reset-1.6.1/css" type="text/css" rel="stylesheet" />
+    <link href="video-js.min.css" rel="stylesheet">
+    <script src="video.min.js"></script>
+    <script src="videojs.hls.min.js"></script>
+    <script src="three.min.js"></script>
+    <script src="CanvasRenderer.js"></script>
+    <script src="Projector.js"></script>
+    <script src="VRControls.js"></script>
+    <script src="webvr-polyfill.js"></script>
+    <script src="webvr-manager.js"></script>
+
+
+    <style type="text/css">body {
+        background: #FFFFFF;
+    }
+    .title {
+        margin: 10px auto;
+        text-align: center;
+    }
+    .movie {
+        text-align: center;
+        margin: 10px auto;
+    }
+    .movie video {
+        margin: 0px auto;
+        width: 320px;
+        height: 180px;
+    }
+    .control {
+        text-align: center;
+    }
+    .control button {
+        font-size: 24px;
+    }
+    .container {
+        text-align: center;
+        margin: 10px auto;
+    }
+    </style></head>
+<body>
+<video id=example-video width=600 height=300 class="video-js vjs-default-skin" controls>
+    <source
+            src="http://s3.amazonaws.com/_bc_dml/example-content/tears-of-steel/playlist.m3u8"
+            type="application/x-mpegURL">
+</video>
+
+<div class="movie"><canvas width="320" height="180" id="myCanvas"></canvas></div>
+<div id="container" class="container"></div>
+<div class="control"><button>play/pause</button></div>
+<script type="text/javascript">
+    (function(){
+        var btn = document.querySelector('button');
+        btn.disabled = true;
+        var audio = new Audio();
+        var video = document.createElement('video');
+        video.style.display = 'none';
+        document.body.appendChild(video);
+        var canvas = document.getElementById('myCanvas');
+        //canvas.style.display = 'none';
+        var ctx = canvas.getContext("2d");
+        var togglePlay;
+        var ua = navigator.userAgent;
+        var container, camera, scene, geometry, texture, material, mesh, renderer, controls;
+
+        if(/(iPhone|iPod)/.test(ua)) {
+            ctx.scale(0.5,0.5);
+            var prms1 = new Promise(function(resolve, reject) {
+                video.addEventListener('canplay',function(){
+                    resolve();
+                });
+                video.addEventListener('error',function(){
+                    reject();
+                    alert('failed loading video');
+                });
+            });
+            var prms2 = new Promise(function(resolve, reject) {
+                audio.addEventListener('canplay',function(){
+                    resolve();
+                });
+                audio.addEventListener('error',function(){
+                    reject();
+                    alert('failed loading audio');
+                });
+            });
+            Promise.all([prms1,prms2]).then(function(){
+                btn.disabled = false;
+            });
+            video.src = '../index.m3u8';
+            video.load();
+            audio.src = '../index.m3u8';
+            audio.load();
+
+            container = document.getElementById( 'container' );
+
+            camera = new THREE.PerspectiveCamera( 75, 640/360 , 1, 1100 );
+            camera.target = new THREE.Vector3( 0, 0, 0 );
+
+            controls = new THREE.VRControls(camera);
+
+            scene = new THREE.Scene();
+
+            geometry = new THREE.SphereBufferGeometry( 5, 60, 40 );
+            geometry.scale( - 1, 1, 1 );
+
+            texture = new THREE.Texture(canvas);
+            texture.minFilter = THREE.LinearFilter;
+            texture.format = THREE.RGBFormat;
+
+            material = new THREE.MeshBasicMaterial( { map : texture } );
+            mesh = new THREE.Mesh( geometry, material );
+            scene.add( mesh );
+
+            renderer = new THREE.WebGLRenderer();
+            renderer.setPixelRatio( window.devicePixelRatio );
+            renderer.setSize(320,180);
+            container.appendChild(renderer.domElement);
+
+            togglePlay = function(){
+                if(audio.paused){
+                    audio.play();
+                    (function loop(){
+                        video.currentTime = audio.currentTime;
+                        ctx.drawImage(video, 0, 0, 640,360);
+                        texture.needsUpdate = true;
+                        controls.update();
+                        renderer.render( scene, camera );
+                        if(!audio.paused){
+                            requestAnimationFrame( loop );
+                        }
+                    })();
+                } else {
+                    audio.pause();
+                }
+            };
+            btn.addEventListener('click',togglePlay);
+        } else {
+            var player = videojs('example-video');
+            var progressed = function(options) {
+                console.log("videojs plugin test");
+            };
+            videojs.plugin('progressed', progressed);
+            player.progressed();
+        }
+    })();
+</script>
+</body>
+</html>
